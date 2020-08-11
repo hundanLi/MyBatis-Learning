@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcl.mybatislearning.mapper.BlogMapper">
+    <insert id="insertBlog"
+            parameterType="com.tcl.mybatislearning.entity.Blog"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into blog (title, content, author)
+        VALUES (#{title}, #{content}, #{author});
+    </insert>
+
+    <update id="updateBlog">
+        update blog
+        set
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="content!= null">
+                content=#{content},
+            </if>
+            <if test="author!=null">
+                author = #{author}
+            </if>
+        where id = #{id};
+    </update>
+
+    <delete id="deleteBlogById">
+        delete
+        from blog
+        where id = #{id};
+    </delete>
+
+    <select id="selectById" resultType="com.tcl.mybatislearning.entity.Blog">
+        select *
+        from Blog
+        where id = #{id};
+    </select>
+
+    <select id="selectAll" resultType="com.tcl.mybatislearning.entity.Blog">
+        select *
+        from blog;
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(id)
+        from blog;
+    </select>
+</mapper>
