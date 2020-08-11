@@ -21,6 +21,9 @@
     <objectFactory type="com.tcl.mybatislearning.factory.MyObjectFactory">
         <property name="prop" value="prop_value"/>
     </objectFactory>
+    <plugins>
+        <plugin interceptor="com.tcl.mybatislearning.interceptor.SelectInterceptor"/>
+    </plugins>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
