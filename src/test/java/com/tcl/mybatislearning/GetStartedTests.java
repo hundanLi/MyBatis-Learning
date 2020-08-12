@@ -121,4 +121,9 @@ class GetStartedTests {
     void testDruidDataSource() throws IOException {
         selectList();
     }
+
+    @Test
+    void testSql() throws IOException {
+        selectList();
+    }
 }

@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tcl.mybatislearning.mapper.BlogMapper">
 
+    <sql id="blogColumns">
+        ${alias}.id, ${alias}.title, ${alias}.content, ${alias}.author, ${alias}.create_time, ${alias}.update_time
+    </sql>
+    
     <resultMap id="blogMap" type="com.tcl.mybatislearning.entity.Blog">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
@@ -49,8 +53,11 @@
     </select>
 
     <select id="selectAll" resultType="com.tcl.mybatislearning.entity.Blog">
-        select *
-        from blog;
+        select
+            <include refid="blogColumns">
+                <property name="alias" value="b"/>
+            </include>
+        from blog as b;
     </select>
     <select id="count" resultType="java.lang.Integer">
         select count(id)
