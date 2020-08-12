@@ -111,4 +111,9 @@ class GetStartedTests {
     void testC3P0DataSource() throws IOException {
         selectList();
     }
+
+    @Test
+    void testHikariDataSource() throws IOException {
+        selectList();
+    }
 }
