@@ -27,7 +27,7 @@
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
-            <dataSource type="com.tcl.mybatislearning.datasource.HikariDataSourceFactory">
+            <dataSource type="com.tcl.mybatislearning.datasource.DruidDataSourceFactory">
 <!--                <property name="jdbcUrl" value="${url}"/>-->
 <!--                <property name="username" value="${username}"/>-->
 <!--                <property name="password" value="${username}"/>-->
