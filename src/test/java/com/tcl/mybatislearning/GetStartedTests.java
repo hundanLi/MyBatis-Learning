@@ -105,4 +105,10 @@ class GetStartedTests {
                 mapper.selectAll().forEach(System.out::println);
             }
     }
+
+
+    @Test
+    void testC3P0DataSource() throws IOException {
+        selectList();
+    }
 }
