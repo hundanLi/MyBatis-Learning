@@ -13,14 +13,26 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootTest
 class GetStartedTests {
+    static SqlSessionFactory sessionFactory;
+
+    @BeforeAll
+    static void setup() throws IOException {
+        String configPath = "mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(configPath);
+        sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+    }
 
     @Test
     void getStarted() throws IOException {
@@ -29,7 +41,7 @@ class GetStartedTests {
         InputStream inputStream = Resources.getResourceAsStream(configPath);
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         // 2.创建sqlSession
-        try (SqlSession sqlSession = sessionFactory.openSession(true)){
+        try (SqlSession sqlSession = sessionFactory.openSession(true)) {
             BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
 
             // 插入
@@ -95,15 +107,15 @@ class GetStartedTests {
 
     @Test
     void selectList() throws IOException {
-            // 1.读取配置构建sqlSessionFactory
-            String configPath = "mybatis-config.xml";
-            InputStream inputStream = Resources.getResourceAsStream(configPath);
-            SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-            // 2.创建sqlSession
-            try (SqlSession sqlSession = sessionFactory.openSession(true)) {
-                BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
-                mapper.selectAll().forEach(System.out::println);
-            }
+        // 1.读取配置构建sqlSessionFactory
+        String configPath = "mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(configPath);
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        // 2.创建sqlSession
+        try (SqlSession sqlSession = sessionFactory.openSession(true)) {
+            BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+            mapper.selectAll().forEach(System.out::println);
+        }
     }
 
 
@@ -125,5 +137,46 @@ class GetStartedTests {
     @Test
     void testSql() throws IOException {
         selectList();
+    }
+
+
+    @Test
+    void testChoose() {
+        try (SqlSession sqlSession = sessionFactory.openSession(true)) {
+            BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+            Author author = new Author();
+            author.setName("Author%");
+            List<Blog> blogs = mapper.selectBlogLike(null, null);
+            blogs.forEach(System.out::println);
+        }
+    }
+
+    @Test
+    void testForeach() {
+        try (SqlSession session = sessionFactory.openSession(true)) {
+            BlogMapper mapper = session.getMapper(BlogMapper.class);
+            List<Long> ids = Arrays.asList(3L, 4L, 5L, 6L);
+            List<Blog> blogs = mapper.selectByIds(ids);
+            blogs.forEach(System.out::println);
+        }
+    }
+
+    @Test
+    void testBatchInsert() {
+        try (SqlSession session = sessionFactory.openSession(true)) {
+            BlogMapper mapper = session.getMapper(BlogMapper.class);
+            List<Blog> blogs = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                Blog blog = new Blog();
+                blog.setTitle("batch-" + (i + 1));
+                blog.setContent("batch-content" + (i + 1));
+                Author author = new Author();
+                author.setName("b-author-" + (i + 1));
+                blog.setAuthor(author);
+                blogs.add(blog);
+            }
+            mapper.insertBatch(blogs);
+            blogs.forEach(System.out::println);
+        }
     }
 }

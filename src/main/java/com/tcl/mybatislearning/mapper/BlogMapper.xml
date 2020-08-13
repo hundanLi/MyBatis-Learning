@@ -63,4 +63,38 @@
         select count(id)
         from blog;
     </select>
+
+    <select id="selectBlogLike" resultType="com.tcl.mybatislearning.entity.Blog">
+        select * from blog
+        where
+            <choose>
+                <when test="title != null">
+                    title like #{title}
+                </when>
+                <when test="author!=null and author.name != null">
+                    author like #{author.name}
+                </when>
+                <otherwise>
+                    id > 1
+                </otherwise>
+            </choose>
+    </select>
+
+    <select id="selectByIds" resultType="com.tcl.mybatislearning.entity.Blog">
+        select * from blog
+        where id in
+        <foreach collection="ids" index="index" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into blog (title, content, author)
+        values
+        <foreach collection="blogs" item="blog" separator=",">
+            (#{blog.title}, #{blog.content}, #{blog.author})
+        </foreach>
+    </insert>
+
 </mapper>

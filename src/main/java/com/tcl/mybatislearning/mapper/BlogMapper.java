@@ -1,7 +1,9 @@
 package com.tcl.mybatislearning.mapper;
 
+import com.tcl.mybatislearning.entity.Author;
 import com.tcl.mybatislearning.entity.Blog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,5 +26,11 @@ public interface BlogMapper {
     List<Blog> selectAll();
 
     Integer count();
+
+    List<Blog> selectBlogLike(@Param("title") String title, @Param("author") Author author);
+
+    List<Blog> selectByIds(@Param("ids") List<Long> ids);
+
+    void insertBatch(@Param("blogs") List<Blog> blogs);
 
 }
