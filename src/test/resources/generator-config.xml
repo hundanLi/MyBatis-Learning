@@ -1,0 +1,20 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="simple" targetRuntime="MyBatis3Simple">
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost/mybatis_learning?serverTimezone=Asia/Shanghai"
+                        userId="root" password="root"
+        />
+
+        <javaModelGenerator targetPackage="com.tcl.generated.model" targetProject="src/test/java"/>
+
+        <sqlMapGenerator targetPackage="com.tcl.generated.mapper" targetProject="src/test/resources"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tcl.generated.mapper" targetProject="src/test/java"/>
+
+
+        <table tableName="Blog" />
+    </context>
+</generatorConfiguration>

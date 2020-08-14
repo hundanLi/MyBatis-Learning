@@ -70,6 +70,13 @@
             <version>0.9.5.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
